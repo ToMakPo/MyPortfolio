@@ -1,38 +1,30 @@
 {
-  "name": "myportfolio",
-  "description": "My personal professional portfolio.",
-  "version": "1.0.0",
-  "main": "server.js",
-  "scripts": {
-    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
-    "start:prod": "node server.js",
-    "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
-    "client": "cd client && npm run start",
-    "seed": "node scripts/seedDB.js",
-    "install": "cd client && npm install",
-    "build": "cd client && npm run build",
-    "heroku-postbuild": "npm run build"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ToMakPo/MyPortfolio.git"
-  },
-  "keywords": [
-    "professional",
-    "portfolio"
-  ],
-  "author": "Makai Post",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ToMakPo/MyPortfolio/issues"
-  },
-  "homepage": "https://postnet-portfolio.herokuapp.com/",
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:8080/",
   "dependencies": {
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^1.1.1"
   },
-  "devDependencies": {
-    "concurrently": "^6.0.0",
-    "nodemon": "^2.0.7"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
