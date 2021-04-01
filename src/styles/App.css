@@ -1,0 +1,24 @@
+#root * h1, #root * h2, #root * h3, #root * h4, #root * h5, #root * h6 {
+  margin: 10px 0;
+}
+
+#root * p {
+  display: block;
+  margin: 5px 0;
+}
+
+#root * ul, #root * ol {
+  display: block;
+  padding-left: 1.5em;
+}
+
+#root * li {
+  display: list-item;
+  list-style-type: disc;
+  margin: 5px 0;
+}
+
+#root * nav {
+  display: flex;
+  grid-gap: 25px;
+}

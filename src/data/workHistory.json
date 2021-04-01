@@ -1,0 +1,20 @@
+[
+    {
+        "id": "5D4SSA15AW",
+        "title": "Manufacturing Technical Support",
+        "type": "Contract",
+        "company": "Dell",
+        "location": "Renton, WA",
+        "startDate": "2017-06-16",
+        "endDate": "2017-08-15",
+        "description": [
+            "Contract position with Dell at Boeing.",
+            "Resolve any hardware or software technical issues on over 5,000 desktop, laptop, and tablet computers on the Boeing manufacturing floors and flight lines in the Renton, Seattle, Tacoma areas.",
+            [
+                "Updating software, removing malicious software, replacing damaged hardware, reimaging OS, defragmenting hard drive, improving performance by removing unused files and user profiles.",
+                "Performing line walks to check all computers within our care to ensure all PCs are working optimally and to perform preventative maintenance."
+            ]
+        ],
+        "imagePath": "https://toppng.com/uploads/preview/dell-logo-png-115528518187jmytahoyx.png"
+    }
+]

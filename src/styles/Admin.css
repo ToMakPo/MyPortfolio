@@ -1,0 +1,89 @@
+#admin-page .section-header {
+  display: flex;
+  align-items: center;
+  grid-gap: 10px;
+}
+
+#admin-page .section-header .add-button {
+  cursor: pointer;
+}
+
+#admin-page .item {
+  display: flex;
+  align-items: flex-start;
+  grid-gap: 5px;
+  background-color: #a8cce0;
+  padding: 10px;
+  border-radius: 3px;
+  position: relative;
+}
+
+#admin-page .item img {
+  width: 100px;
+}
+
+#admin-page .item .edit-button {
+  position: absolute;
+  top: 0.3em;
+  right: 0.3em;
+  cursor: pointer;
+}
+
+#admin-page .item:hover .edit-button {
+  display: block;
+}
+
+#admin-page .modal-bg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #444444bb;
+}
+
+#admin-page .modal {
+  background-color: #fff;
+  padding: 10px;
+  margin: 5px;
+  position: relative;
+  border-radius: 3px;
+  width: 500px;
+  max-width: 100%;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+#admin-page .modal form {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 5px;
+}
+
+#admin-page .modal .close-button {
+  position: absolute;
+  top: 0.3em;
+  right: 0.3em;
+}
+
+#admin-page .modal .modal-input label, #admin-page .modal .modal-textbox label, #admin-page .modal .modal-dropdown label {
+  font-size: 0.8em;
+  display: block;
+}
+
+#admin-page .modal .modal-checkbox label {
+  font-size: 0.7em;
+}
+
+#admin-page .modal .model-input-field {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#admin-page .modal .modal-textbox textarea {
+  resize: none;
+  min-height: 100px;
+}
