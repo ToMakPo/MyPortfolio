@@ -12,6 +12,7 @@ app.use(express.json())
 //     ? express.static("client/build")
 //     : express.static("client/public")
 // )
+app.use(express.static("client/public"))
 
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
