@@ -8,10 +8,10 @@ const app = express()
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-app.use(process.env.NODE_ENV === "production" 
-    ? express.static("client/build")
-    : express.static("client/public")
-)
+// app.use(process.env.NODE_ENV === "production" 
+//     ? express.static("client/build")
+//     : express.static("client/public")
+// )
 
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
