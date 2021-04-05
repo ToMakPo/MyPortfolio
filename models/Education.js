@@ -40,6 +40,6 @@ const educationSchema = new mongoose.Schema({
     }]
 })
 
-const Education = mongoose.model("education", educationSchema)
+const Education = mongoose.model("education", educationSchema, "education")
 
 module.exports = Education

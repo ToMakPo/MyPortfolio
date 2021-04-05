@@ -39,6 +39,6 @@ const referencesSchema = new mongoose.Schema({
     }] 
 })
 
-const References = mongoose.model("references", referencesSchema)
+const References = mongoose.model("references", referencesSchema, "references")
 
 module.exports = References

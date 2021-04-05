@@ -40,6 +40,6 @@ const workHistorySchema = new mongoose.Schema({
     }]
 })
 
-const WorkHistory = mongoose.model("workHistory", workHistorySchema)
+const WorkHistory = mongoose.model("workHistory", workHistorySchema, "workHistory")
 
 module.exports = WorkHistory

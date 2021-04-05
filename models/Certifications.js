@@ -40,6 +40,6 @@ const certificationsSchema = new mongoose.Schema({
     }]
 })
 
-const Certifications = mongoose.model("certifications", certificationsSchema)
+const Certifications = mongoose.model("certifications", certificationsSchema, "certifications")
 
 module.exports = Certifications
