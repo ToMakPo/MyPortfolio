@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const References = require('./References')
 
 const certificationsSchema = new mongoose.Schema({
     name: {
@@ -26,16 +27,15 @@ const certificationsSchema = new mongoose.Schema({
     expirationDate: {
         type: Date
     },
-    description: {
-        type: String,
-        trim: true
-    },
+    description: [{
+        type: mongoose.Schema.Types.Mixed
+    }],
     imagePath: {
         type: String,
         trim: true
     },
     references: [{
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "References"
     }]
 })

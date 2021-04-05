@@ -1,3 +1,7 @@
+#admin-page {
+  font-family: monospace;
+}
+
 #admin-page .section-header {
   display: flex;
   align-items: center;
@@ -8,29 +12,59 @@
   cursor: pointer;
 }
 
+#admin-page .items {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 10px;
+}
+
 #admin-page .item {
   display: flex;
   align-items: flex-start;
+  flex-flow: row wrap;
   grid-gap: 5px;
-  background-color: #a8cce0;
+  box-shadow: 3px 3px 8px #555;
+  border: 1px solid black;
   padding: 10px;
-  border-radius: 3px;
+  border-radius: 5px;
   position: relative;
 }
 
-#admin-page .item img {
-  width: 100px;
+#admin-page .item img, #admin-page .item span {
+  flex: 1 1 calc(calc(50px - 100%) * 999);
+  max-width: 70px;
+}
+
+#admin-page .item > div {
+  flex: 1 1 calc(calc(450px - 100%) * 999);
+  display: flex;
+  flex-direction: column;
+  grid-gap: 5px;
+}
+
+#admin-page .item h3 {
+  margin: 0;
+}
+
+#admin-page .item hr {
+  height: 0.1px;
+  width: 100%;
+  background-color: black;
+  margin: 0;
 }
 
 #admin-page .item .edit-button {
   position: absolute;
+  color: #2a5a75;
   top: 0.3em;
   right: 0.3em;
   cursor: pointer;
+  transition: opacity 0.5s;
+  opacity: 0;
 }
 
 #admin-page .item:hover .edit-button {
-  display: block;
+  opacity: 1;
 }
 
 #admin-page .modal-bg {
@@ -57,33 +91,87 @@
   overflow-y: auto;
 }
 
-#admin-page .modal form {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 5px;
-}
-
 #admin-page .modal .close-button {
   position: absolute;
   top: 0.3em;
   right: 0.3em;
 }
 
-#admin-page .modal .modal-input label, #admin-page .modal .modal-textbox label, #admin-page .modal .modal-dropdown label {
-  font-size: 0.8em;
-  display: block;
+#admin-page header .menu-button, #admin-page header .close-button {
+  display: none;
 }
 
-#admin-page .modal .modal-checkbox label {
-  font-size: 0.7em;
+#admin-page header nav {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-#admin-page .modal .model-input-field {
-  width: 100%;
-  box-sizing: border-box;
+#admin-page header nav a {
+  color: #444;
+  font-size: 1.25em;
 }
 
-#admin-page .modal .modal-textbox textarea {
-  resize: none;
-  min-height: 100px;
+#admin-page header nav a:hover {
+  color: #80953b;
+}
+
+#admin-page header nav a:active {
+  color: #457573;
+}
+
+@media screen and (max-width: 487px) {
+  #admin-page header {
+    display: flex;
+    justify-content: space-between;
+  }
+  #admin-page header nav {
+    background-color: #444;
+    flex-direction: column;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 100%;
+    width: 100vw;
+    z-index: 10;
+    transition: left 0.25s;
+    grid-gap: 10px;
+  }
+  #admin-page header nav a {
+    color: #fff;
+    font-size: 1.5em;
+  }
+  #admin-page header nav a:hover {
+    color: #bada55;
+  }
+  #admin-page header nav a:active {
+    color: #8cf0eb;
+  }
+  #admin-page header nav.show {
+    left: 0;
+  }
+  #admin-page header .menu-button, #admin-page header .close-button {
+    display: block;
+    cursor: pointer;
+    padding: 0 0 10px 10px;
+  }
+  #admin-page header .close-button {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    color: #fff;
+  }
+}
+
+#admin-page .button-box {
+  display: flex;
+  grid-gap: 5px;
+}
+
+#admin-page .button-box button:first-child {
+  flex: 1 1 85%;
+}
+
+#admin-page .button-box button:not(:first-child) {
+  flex: 1 1 auto;
 }

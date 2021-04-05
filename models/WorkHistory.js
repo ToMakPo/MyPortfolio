@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const References = require('./References')
 
 const workHistorySchema = new mongoose.Schema({
     title: {
@@ -26,16 +27,15 @@ const workHistorySchema = new mongoose.Schema({
     endDate: {
         type: Date
     },
-    description: {
-        type: String,
-        trim: true
-    },
+    description: [{
+        type: mongoose.Schema.Types.Mixed
+    }],
     imagePath: {
         type: String,
         trim: true
     },
     references: [{
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "References"
     }]
 })

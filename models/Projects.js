@@ -1,4 +1,6 @@
 const mongoose = require("mongoose")
+const References = require('./References')
+const Skills = require('./Skills')
 
 const projectsSchema = new mongoose.Schema({
     name: {
@@ -6,11 +8,9 @@ const projectsSchema = new mongoose.Schema({
         trim: true,
         required: "Provide a name for the project."
     },
-    description: {
-        type: String,
-        trim: true,
-        required: "Provide a description of the project."
-    },
+    description: [{
+        type: mongoose.Schema.Types.Mixed,
+    }],
     details: {
         goal: {
             type: String,
@@ -21,7 +21,7 @@ const projectsSchema = new mongoose.Schema({
             trim: true
         },
         skills: [{
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "skills"
         }],
     },
@@ -38,7 +38,7 @@ const projectsSchema = new mongoose.Schema({
         trim: true
     },
     references: [{
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "References"
     }]
 })

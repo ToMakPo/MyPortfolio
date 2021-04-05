@@ -1,33 +1,25 @@
+const router = require("express").Router()
 const db = require('../models')
-const moment = require('moment')
 
-/**
- * Check that the end date comes after the start date or is null.
- * @param {moment} startDate 
- * @param {moment} endDate 
- */
-function verifyDates(startDate, endDate) {
-    if (startDate === null) return 'Start date can not be null.'
-    if (endDate !== null && endDate.isBefore(startDate)) return 'End date is set before start date.'
-    return null
-}
+router.get('/getCertifications', async (_, res) => res.json(await db.Certifications.find()))
+router.get('/getEducation', async (_, res) => res.json(await db.Education.find().sort({startDate: "desc"})))
+router.get('/getProjects', async (_, res) => res.json(await db.Projects.find()))
+router.get('/getReferences', async (_, res) => res.json(await db.References.find()))
+router.get('/getSkills', async (_, res) => res.json(await db.Skills.find().sort({pinned: "desc"})))
+router.get('/getWorkHistory', async (_, res) => res.json(await db.WorkHistory.find().sort({startDate: "desc"})))
 
-module.exports = function(app) {
-    app.get('/api/getCertifications', (res, res) => res.json(db.Certifications.find()))
-    app.get('/api/getEducation', (res, res) => res.json(db.Education.find().sort({startDate: "desc"})))
-    app.get('/api/getProjects', (res, res) => res.json(db.Projects.find()))
-    app.get('/api/getReferences', (res, res) => res.json(db.References.find()))
-    app.get('/api/getSkills', (res, res) => res.json(db.Skills.find().sort({pinned: "desc"})))
-    app.get('/api/getWorkHistory', (res, res) => res.json(db.WorkHistory.find().sort({startDate: "desc"})))
+/// ADMIN ///
+router.get('/checkAdminKey/:key', ({params: {key}}, res) => {
+    res.json(key === process.env.ADMIN_KEY)
+})
+router.post('/addRecord/:table', async ({body, params: {table}}, res) => {
+    res.json(await db[table].create(body))
+})
+router.put('/updateRecord/:table/:_id', async ({body, params: {table, _id}}, res) => {
+    res.json(await db[table].updateOne({_id}, {$set: body}))
+})
+router.delete('/deleteRecord/:table/:_id', async ({params: {table, _id}}, res) => {
+    res.json(await db[table].remove({_id}))
+})
 
-    /// ADMIN ///
-    app.get('/api/checkAdminKey/:key', ({params: {key}}, res) => {
-        res.json(key === process.env.ADMIN_KEY)
-    })
-    app.post('/api/addWorkHistory', ({body}, res) => {
-        const err = verifyDates(body.startDate, body.endDate)
-        if (err !== null) return res.json(error)
-        db.WorkHistory.insertOne(body)
-        res.json(body)
-    })
-};
+module.exports = router

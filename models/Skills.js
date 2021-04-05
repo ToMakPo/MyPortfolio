@@ -19,10 +19,9 @@ const skillsSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    details: {
-        type: String,
-        trim: true
-    }
+    details: [{
+        type: mongoose.Schema.Types.Mixed,
+    }],
 })
 
 const Skills = mongoose.model("skills", skillsSchema)
