@@ -235,7 +235,7 @@ function WorkHistory({setModal}) {
                             ref={imagePathInput}/>
                         
                         <div className='button-box'>
-                            <button>Save</button>
+                            <button className='bg-accept'>Save</button>
                             {!isNew && <button onClick={deleteRecord}>
                                 Delete
                             </button>}

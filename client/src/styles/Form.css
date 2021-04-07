@@ -54,3 +54,17 @@ form .field-group .form-item {
   flex: 1 1 calc(calc(50px - 100%) * 999);
   width: 170px;
 }
+
+form button.bg-accept {
+  background-color: cadetblue;
+  color: white;
+  transition: 0.25s;
+}
+
+form button:hover {
+  filter: brightness(85%);
+}
+
+form button:active {
+  filter: brightness(65%);
+}

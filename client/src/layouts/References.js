@@ -232,7 +232,12 @@ function References({setModal}) {
                             defaultValue={data?.imagePath || ''}
                             ref={imagePathInput}/>
                         
-                        <button>Save</button>
+                        <div className='button-box'>
+                            <button className='bg-accept'>Save</button>
+                            {!isNew && <button onClick={deleteRecord}>
+                                Delete
+                            </button>}
+                        </div>
                     </form>
                 </div>
             </div>
