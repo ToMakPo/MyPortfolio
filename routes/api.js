@@ -1,12 +1,13 @@
 const router = require("express").Router()
 const db = require('../models')
 
-router.get('/getCertifications', async (_, res) => res.json(await db.Certifications.find()))
+router.get('/getCertifications', async (_, res) => res.json(await db.Certifications.find().sort({issueDate: "desc"})))
 router.get('/getEducation', async (_, res) => res.json(await db.Education.find().sort({startDate: "desc"})))
 router.get('/getProjects', async (_, res) => res.json(await db.Projects.find()))
 router.get('/getReferences', async (_, res) => res.json(await db.References.find()))
 router.get('/getSkills', async (_, res) => res.json(await db.Skills.find().sort({pinned: "desc"})))
 router.get('/getWorkHistory', async (_, res) => res.json(await db.WorkHistory.find().sort({startDate: "desc"})))
+// router.get('/getWorkHistory', async (_, res) => res.json(await db.WorkHistory.find().populate('certifications').sort({startDate: "desc"})))
 
 /// ADMIN ///
 router.get('/checkAdminKey/:key', ({params: {key}}, res) => {

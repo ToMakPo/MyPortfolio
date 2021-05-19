@@ -1,5 +1,8 @@
 #admin-page {
   font-family: monospace;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 #admin-page .section-header {

@@ -13,9 +13,14 @@ const Dropdown = forwardRef(({name, options, id, label, ...props}, ref) => {
                 ref={ref}
                 {...props}
             >
-                {options.map((option, i) => 
-                    <option key={i} value={option}>{option}</option>
-                )}
+                {options.map((option, i) => {
+                    if (Array.isArray(option)) {
+                        const [text, value] = option
+                        return <option key={i} value={value}>{text}</option>
+                    } else {
+                        return <option key={i} value={option}>{option}</option>
+                    }
+                })}
             </select>
         </div>
     )

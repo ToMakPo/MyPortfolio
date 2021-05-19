@@ -1,5 +1,4 @@
 const mongoose = require("mongoose")
-const References = require('./References')
 
 const certificationsSchema = new mongoose.Schema({
     name: {
@@ -33,11 +32,7 @@ const certificationsSchema = new mongoose.Schema({
     imagePath: {
         type: String,
         trim: true
-    },
-    references: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "References"
-    }]
+    }
 })
 
 const Certifications = mongoose.model("certifications", certificationsSchema, "certifications")

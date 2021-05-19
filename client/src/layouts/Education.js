@@ -30,7 +30,7 @@ function Education({setModal}) {
     )
 
     function Item(data) {
-        const {school, degree, fieldOfStudy, location, startDate, endDate, description, imagePath} = data
+        const {school, degree, fieldOfStudy, location, startDate, endDate, description, imagePath, references, certifications} = data
         
         return (
             <div className='item'>
@@ -40,7 +40,7 @@ function Education({setModal}) {
                 }
                 <div>
                     <h3>{school}</h3>
-                    <div>{degree}</div>
+                    <big>{degree}</big>
                     <div>{fieldOfStudy}</div>
                     <small>
                         <Moment format={"MMM YYYY"} date={startDate}/>{' - '}
@@ -101,7 +101,7 @@ function Education({setModal}) {
                 const line = oldDescription.shift().trim()
                 if (line === '') continue
 
-                const split = line.split(/^\W*-\W*/)
+                const split = line.split(/^ *[-•] */)
                 if (split.length == 2) {
                     if (split[1] !== '') {
                         list.push(split[1])

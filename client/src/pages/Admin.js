@@ -80,7 +80,7 @@ function Admin() {
                     </nav>
                 </header>
 
-                {sections[page]}
+                <main>{sections[page]}</main>
                 {modal}
             </> : <>
                 <div>You do not have permission to use this page.</div>

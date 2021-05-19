@@ -32,7 +32,7 @@ function WorkHistory({setModal}) {
     )
 
     function Item(data) {
-        const {title, company, employmentType, location, startDate, endDate, description, imagePath} = data
+        const {title, company, employmentType, location, startDate, endDate, description, imagePath, references, certifications} = data
         
         return (
             <div className='item'>
@@ -42,7 +42,7 @@ function WorkHistory({setModal}) {
                 }
                 <div>
                     <h3>{title}</h3>
-                    <div><span>{company}</span> • <span>{employmentType}</span></div>
+                    <div><big>{company}</big> • <span>{employmentType}</span></div>
                     <small>
                         <Moment format={"MMM YYYY"} date={startDate}/>{' - '}
                         {endDate ? <Moment format={"MMM YYYY"} date={endDate}/> : 'Present'}
@@ -63,6 +63,17 @@ function WorkHistory({setModal}) {
                             }</div>
                         </>
                     }
+                    {
+                        certifications?.length > 0 && 
+                        <>
+                        <hr/>
+                        <div>{
+                            certifications?.map((certification, i) => {
+                                certifications
+                            })
+                        }</div>
+                        </>
+                    }
                 </div>
                 <EditIcon onClick={_ => setModal(<Modal data={data}/>)}/>
             </div>
@@ -70,9 +81,11 @@ function WorkHistory({setModal}) {
     }
 
     function Modal({data}) {
+        console.log({data});
         const [isNew] = useState(data === undefined)
         const [currentlyInRole, setCurrentlyInRole] = useState(!isNew && data?.endDate === null)
-        
+        const [availableCertifications, setAvailableCertifications] = useState()
+
         const [id] = useState(data?._id)
         const titleInput = useRef()
         const companyInput = useRef()
@@ -83,6 +96,23 @@ function WorkHistory({setModal}) {
         const currentlyInRoleCheckbox = useRef()
         const descriptionTextbox = useRef()
         const imagePathInput = useRef()
+        const certificationDropdown = useRef()
+
+        useEffect(async _ => {
+            // const availableCertifications = await API.getCertifications()
+            //     .map(certification => {
+            //         let selected = false
+            //         for (const cert of data?.certifications) {
+            //             if (certification._id === cert._id) {
+            //                 selected = true
+            //                 break
+            //             }
+            //         }
+            //         return {certification, selected}
+            //     })
+
+            // availableCertifications()
+        }, [])
 
         function stringifyDescription() {
             return data?.description
@@ -104,7 +134,7 @@ function WorkHistory({setModal}) {
                 const line = oldDescription.shift().trim()
                 if (line === '') continue
 
-                const split = line.split(/^\W*-\W*/)
+                const split = line.split(/^ *[-•] */)
                 if (split.length == 2) {
                     if (split[1] !== '') {
                         list.push(split[1])
@@ -229,6 +259,13 @@ function WorkHistory({setModal}) {
                             name='Description' 
                             defaultValue={stringifyDescription()}
                             ref={descriptionTextbox}/>
+                        {/* <Dropdown 
+                            name='Employment Type'
+                            defaultValue={data?.employmentType || ''}
+                            ref={employmentTypeDropdown}
+                            options={
+                                availableCertifications.map(cert => [cert.name, cert])
+                            }/> */}
                         <Input
                             name='Image Path'
                             defaultValue={data?.imagePath || ''}

@@ -108,7 +108,7 @@ function References({setModal}) {
                 const line = oldDescription.shift().trim()
                 if (line === '') continue
 
-                const split = line.split(/^\W*-\W*/)
+                const split = line.split(/^ *[-•] */)
                 if (split.length == 2) {
                     if (split[1] !== '') {
                         list.push(split[1])

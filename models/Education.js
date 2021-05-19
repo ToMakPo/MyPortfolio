@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const References = require('./References')
+const Certifications = require('./Certifications')
 
 const educationSchema = new mongoose.Schema({
     school: {
@@ -37,7 +38,11 @@ const educationSchema = new mongoose.Schema({
     references: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "References"
-    }]
+    }],
+    // certifications: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Certifications"
+    // }]
 })
 
 const Education = mongoose.model("education", educationSchema, "education")

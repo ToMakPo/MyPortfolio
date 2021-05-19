@@ -6,7 +6,6 @@ import EditIcon from '../components/EditIcon'
 import Input from '../components/Input'
 import Textbox from '../components/Textbox'
 import Checkbox from '../components/Checkbox'
-import Dropdown from '../components/Dropdown'
 import API from '../utils/API'
 
 import '../styles/Admin.css'
@@ -32,22 +31,27 @@ function Certifications({setModal}) {
     )
 
     function Item(data) {
-        const {title, company, employmentType, startDate, endDate, location, description, imagePath} = data
+        const {name, organization, credentialId, credentialUrl, issueDate, expirationDate, description, imagePath} = data
         
         return (
             <div className='item'>
-                {imagePath 
-                    ? <img src={imagePath} alt={`${company} company logo`}/>
+                {imagePath
+                    ? <img src={imagePath} alt={`${organization} organization logo`}/>
                     : <span></span>
                 }
                 <div>
-                    <h3>{title}</h3>
-                    <div><span>{company}</span> • <span>{employmentType}</span></div>
+                    <h3>{name}</h3>
+                    <big>{organization}</big>
                     <small>
-                        <Moment format={"MMM YYYY"} date={startDate}/>{' - '}
-                        {endDate ? <Moment format={"MMM YYYY"} date={endDate}/> : 'Present'}
-                        {location && ' • ' + location}
+                        Issued <Moment format={"MMM YYYY"} date={issueDate}/>
+                        {expirationDate && ' - '}
+                        {expirationDate && <Moment format={"MMM YYYY"} date={expirationDate}/>}
                     </small>
+                    {(credentialId || credentialUrl) &&  <small>
+                            {credentialId && <span>{credentialId}</span>}
+                            {credentialId && credentialUrl && ' • '}
+                            {credentialUrl && <a href={credentialUrl} target='_blank'>Credential Link</a>}
+                    </small>}
                     {
                         description.length > 0 &&
                         <>
@@ -71,16 +75,16 @@ function Certifications({setModal}) {
 
     function Modal({data}) {
         const [isNew] = useState(data === undefined)
-        const [currentlyInRole, setCurrentlyInRole] = useState(!isNew && data?.endDate === null)
+        const [noExpiration, setNoExpiration] = useState(!isNew && data?.expirationDate === null)
         
-        const id = useRef(data?._id)
-        const titleInput = useRef()
-        const companyInput = useRef()
-        const employmentTypeDropdown = useRef()
-        const locationInput = useRef()
-        const startDateInput = useRef()
-        const endDateInput = useRef()
-        const currentlyInRoleCheckbox = useRef()
+        const [id] = useState(data?._id)
+        const nameInput = useRef()
+        const organizationInput = useRef()
+        const credentialIdInput = useRef()
+        const credentialUrlInput = useRef()
+        const issueDateInput = useRef()
+        const expirationDateInput = useRef()
+        const noExpirationCheckbox = useRef()
         const descriptionTextbox = useRef()
         const imagePathInput = useRef()
 
@@ -95,10 +99,6 @@ function Certifications({setModal}) {
                 .join('\n\n') || ''
         }
 
-        useEffect(_ => {
-            
-        }, [currentlyInRole])
-
         function parseDescription(description) {
             const oldDescription = description.split('\n')
             const newDescription = []
@@ -108,7 +108,7 @@ function Certifications({setModal}) {
                 const line = oldDescription.shift().trim()
                 if (line === '') continue
 
-                const split = line.split(/^\W*-\W*/)
+                const split = line.split(/^ *[-•] */)
                 if (split.length == 2) {
                     if (split[1] !== '') {
                         list.push(split[1])
@@ -132,43 +132,51 @@ function Certifications({setModal}) {
             return newDescription
         }
 
+        async function deleteRecord() {
+            await API.deleteRecord('Certifications', id)
+            setRecords(await API.getCertifications())
+            setModal(null)
+        }
+
         async function submitForm(event) {
             event.preventDefault()
 
+            console.log(credentialUrlInput.current.value);
+
             const data = {
-                _id: id.current,
-                title: titleInput.current.value,
-                company: companyInput.current.value,
-                employmentType: employmentTypeDropdown.current.value,
-                location: locationInput.current.value,
-                startDate: startDateInput.current.value,
-                endDate: endDateInput.current.value || null,
+                name: nameInput.current.value,
+                organization: organizationInput.current.value,
+                credentialId: credentialIdInput.current.value,
+                credentialUrl: credentialUrlInput.current.value,
+                issueDate: issueDateInput.current.value,
+                expirationDate: expirationDateInput.current.value || null,
                 description: parseDescription(descriptionTextbox.current.value),
                 imagePath: imagePathInput.current.value,
             }
 
-            if (data.title === '') {
-                return refs.titleInput.current.focus()
+            if (data.name === '') {
+                return nameInput.current.focus()
             }
 
-            if (data.company === '') {
-                return refs.companyInput.current.focus()
+            if (data.organization === '') {
+                return organizationInput.current.focus()
             }
 
-            if (data.startDate === '') {
-                return refs.startDateInput.current.focus()
+            if (data.issueDate === '') {
+                return issueDateInput.current.focus()
             }
 
-            if (data.startDate === '' && !currentlyInRole) {
-                return refs.endDateInput.current.focus()
+            if (data.expirationDate === '' && !noExpiration) {
+                return expirationDateInput.current.focus()
             }
 
             if (isNew) {
                 await API.addRecord('Certifications', data)
             } else {
-                await API.updateRecord('Certifications', data)
+                await API.updateRecord('Certifications', id, data)
             }
-
+            
+            setRecords(await API.getCertifications())
             setModal(null)
         }
 
@@ -179,16 +187,17 @@ function Certifications({setModal}) {
                     <h2>{(isNew ? 'New' : 'Edit') + ' Certifications'}</h2>
                     <form onSubmit={submitForm}>
                         <Input
-                            name='Title'
-                            defaultValue={data?.title || ''}
-                            ref={titleInput}/>
+                            name='Name'
+                            defaultValue={data?.name || ''}
+                            ref={nameInput}/>
                         <Input
-                            name='Company'
-                            defaultValue={data?.company || ''}
-                            ref={companyInput}/>
-                        <Dropdown name='Employment Type'
-                            defaultValue={data?.employmentType || ''}
-                            ref={employmentTypeDropdown}
+                            name='Organization'
+                            defaultValue={data?.organization || ''}
+                            ref={organizationInput}/>
+                        <Input
+                            name='Credential ID'
+                            defaultValue={data?.CredentialId || ''}
+                            ref={credentialIdInput}
                             options={[
                                 'Full-time',
                                 'Part-time',
@@ -200,29 +209,28 @@ function Certifications({setModal}) {
                                 'Seasonal'
                             ]}/>
                         <Input
-                            name='Location'
-                            defaultValue={data?.location || ''}
-                            ref={locationInput}/>
+                            name='Credential URL'
+                            defaultValue={data?.credentialUrl || ''}
+                            ref={credentialUrlInput}/>
                         <div className="field-group">
                             <Input
-                                name='Start Date'
+                                name='Issue Date'
                                 type='date'
-                                defaultValue={data?.startDate?.split('T')[0] || ''}
-                                // defaultValue={data?.startDate || ''}
-                                ref={startDateInput}/>
+                                defaultValue={data?.issueDate?.split('T')[0] || ''}
+                                ref={issueDateInput}/>
                             <Input
-                                name='End Date'
-                                type={currentlyInRole ? 'text' : 'date'}
-                                defaultValue={currentlyInRole ? '' : (data?.endDate?.split('T')[0] || '')}
-                                ref={endDateInput}
-                                disabled={currentlyInRole}/>
+                                name='Expiration Date'
+                                type={noExpiration ? 'text' : 'date'}
+                                defaultValue={noExpiration ? '' : (data?.expirationDate?.split('T')[0] || '')}
+                                ref={expirationDateInput}
+                                disabled={noExpiration}/>
                         </div>
                         <Checkbox 
-                            name='Currently in Role'
-                            label='I am currently working in this role'
-                            checked={currentlyInRole}
-                            onChange={_ => setCurrentlyInRole(!currentlyInRole)}
-                            ref={currentlyInRoleCheckbox}/>
+                            name='No Expiration'
+                            label='This certification has no expiration date'
+                            checked={noExpiration}
+                            onChange={_ => setNoExpiration(!noExpiration)}
+                            ref={noExpirationCheckbox}/>
                         <Textbox
                             name='Description' 
                             defaultValue={stringifyDescription()}

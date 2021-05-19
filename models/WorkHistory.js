@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const References = require('./References')
+const Certifications = require('./Certifications')
 
 const workHistorySchema = new mongoose.Schema({
     title: {
@@ -37,6 +38,10 @@ const workHistorySchema = new mongoose.Schema({
     references: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "References"
+    }],
+    certifications: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Certifications"
     }]
 })
 
